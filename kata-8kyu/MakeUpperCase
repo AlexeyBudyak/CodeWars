@@ -1,0 +1,1 @@
+const makeUpperCase = (str) => str.split('').map(el => el.toUpperCase()).join('');
