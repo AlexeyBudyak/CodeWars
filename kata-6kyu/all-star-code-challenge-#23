@@ -1,0 +1,11 @@
+function score(x){
+  return x.normKill * 100 
+         + x.assist * 50
+         + x.damage * 0.5
+         + x.healing 
+         + 2 ** x.streak
+         + x.envKill * 500;
+}
+function scoring(array){
+  return array.sort((a,b)=> score(a) < score(b)).map(el=>el.name);
+}
