@@ -1,5 +1,3 @@
-# unworking draft
-
 def a_in_b(a, b):
     p = 1
     for c in a:   
@@ -16,42 +14,31 @@ def smartest(n, one, all):
             return False
     return True
 
-def recursion(problems, candidates):
+def recursion(n, candidates):
+    min_size = len(candidates) + 1
     all = []
-    smart = []
-    for i,el in enumerate(candidates): 
+    for el in candidates: 
         all+= el
-        if el and smartest(i, el, candidates):
-            smart+= [el]
+ 
     all = list(set(all))
-#     print(all)
-#     print(smart)
-    for i in problems:
+    
+    for i in range(n):
         if i not in all: return -1
     
-    for i in range(len(smart)):
-        if a_in_b(all,smart[i]):
-            return 2
+    if len(candidates) == 1:   return 2
     
-    min_team = len(smart) + 1
-    for i in range(len(smart)):
-        reduced_team = [*smart]
-        in_team = reduced_team.pop(i)
-        reduced_problems = []
-        
-        for el in in_team:
-            if el in reduced_problems:
-                reduced_problems.remove(el)
-        new_team = recursion(reduced_problems, reduced_team)
-        new_team2 = recursion(reduced_problems, smart[1:])
-      
-        if new_team != -1:
-            # print('min',new_team, min_team)
-            min_team = min(new_team +  1, new_team2 + 1, min_team)
-        
-            
-    return min_team
+    for i in range(len(candidates)):
+        new_team = [*candidates]
+        new_team.pop(i)
+        new_size = perfect_team_of_minimal_size(n, new_team)
+        if new_size != -1:
+            min_size = min(min_size, new_size) 
+    return min_size
 
 def perfect_team_of_minimal_size(n, candidates):
-    problems = list(range(n))
-    return recursion(problems, candidates)
+    smart = []
+    for i,el in enumerate(candidates): 
+        if el and smartest(i, el, candidates):
+            smart+= [el]
+    print(smart)
+    return recursion(n, smart)
